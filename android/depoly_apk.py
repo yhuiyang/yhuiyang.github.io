@@ -48,12 +48,9 @@ def main():
 			device['serial'] = details[0]
 			for info in details:
 				if len(info):
-					if info.startswith('product:'):
-						device['product'] = info.split(':')[1]
-					elif info.startswith('model:'):
-						device['model'] = info.split(':')[1]
-					elif info.startswith('device:'):
-						device['device'] = info.split(':')[1]
+					for k in ['product', 'model', 'device', 'usb']:
+						if info.startswith('%s:' % k):
+							device[k] = info.split(':')[1]
 			devices.append(device)
 
 	# deploy to devices
@@ -66,7 +63,8 @@ def main():
 	else:
 		print('Multiple devices connected. Select device you want to deploy:')
 		for idx, val in enumerate(devices):
-			print(' %d) %s, product[%s], model[%s]' % (idx, val['serial'], val['product'], val['model']))
+			print(' %d) %s, product[%s], model[%s], device[%s], usb[%s]' %
+				(idx, val['serial'], val['product'], val['model'], val['device'], val['usb']))
 		print(' %d) deploy to all connected devices' % (idx + 1))
 		user_select_str = raw_input('Your selection (0-%d)? ' % (idx + 1))
 		try:
