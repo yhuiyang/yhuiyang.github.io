@@ -63,8 +63,10 @@ def main():
 	else:
 		print('Multiple devices connected. Select device you want to deploy:')
 		for idx, val in enumerate(devices):
-			print(' %d) %s, product[%s], model[%s], device[%s], usb[%s]' %
-				(idx, val['serial'], val['product'], val['model'], val['device'], val['usb']))
+			try:
+				print(' %d) %s, product[%s], model[%s], device[%s], usb[%s]' % (idx, val['serial'], val['product'], val['model'], val['device'], val['usb']))
+			except KeyError:
+				print(' %d) %s' % (idx, val['serial']))
 		print(' %d) deploy to all connected devices' % (idx + 1))
 		user_select_str = raw_input('Your selection (0-%d)? ' % (idx + 1))
 		try:
